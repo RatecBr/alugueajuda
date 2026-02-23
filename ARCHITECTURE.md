@@ -57,6 +57,7 @@ Este documento descreve a arquitetura técnica, stack tecnológica e estrutura d
 2. Supabase Auth gerencia o login (Email ou Google).
 3. Middleware protege rotas privadas (`/dashboard`, `/chat`).
 4. Sessão é persistida em Cookies seguros.
+5. Navbar detecta sessão automaticamente e exibe Avatar do usuário.
 
 ### Contratação de Serviço
 1. Cliente busca profissional em `/search` (Supabase Query).

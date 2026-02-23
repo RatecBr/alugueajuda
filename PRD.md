@@ -19,10 +19,11 @@ O **AlugueAjuda** é uma plataforma marketplace que conecta pessoas que precisam
 
 ### 3.1 Autenticação e Perfil
 - [x] Login/Cadastro com Email e Senha.
-- [x] Login Social com Google.
+- [x] Login Social com Google (Prioritário).
 - [x] Criação de Perfil Básico (Nome, Foto).
 - [x] Definição de Tipo de Conta (Cliente ou Profissional).
 - [x] Configuração de Preço e Especialidade (para Profissionais).
+- [x] Exibição instantânea de Avatar após login.
 
 ### 3.2 Busca e Descoberta
 - [x] Página de Busca (`/search`) com listagem de profissionais.
@@ -43,12 +44,12 @@ O **AlugueAjuda** é uma plataforma marketplace que conecta pessoas que precisam
 
 ### 3.5 Painel de Controle
 - [x] Dashboard (`/dashboard`) para gestão de conta.
-- [x] Edição de dados pessoais.
+- [x] Edição de dados pessoais e Avatar.
 - [x] Logout seguro.
 
 ## 4. Requisitos Não-Funcionais
 
-- **Responsividade:** O site deve funcionar perfeitamente em Desktop e Mobile.
+- **Responsividade:** O site deve funcionar perfeitamente em Desktop e Mobile (Navbar responsiva).
 - **Performance:** Carregamento rápido das páginas (Next.js SSR/SSG).
 - **Segurança:** Dados sensíveis protegidos; pagamentos processados por gateway certificado (Stripe).
 - **SEO:** Otimização para motores de busca nas páginas públicas.

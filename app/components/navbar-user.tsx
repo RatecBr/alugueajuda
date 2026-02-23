@@ -21,13 +21,22 @@ export default function NavbarUser() {
       setUser(session?.user || null)
       
       if (session?.user) {
+          // Fetch profile, but don't block UI if it doesn't exist yet
           const { data: userProfile } = await supabase
             .from('profiles')
-            .select('*') // Get all fields including avatar_url
+            .select('*')
             .eq('id', session.user.id)
             .single()
           
-          setProfile(userProfile)
+          if (userProfile) {
+            setProfile(userProfile)
+          } else {
+            // If no profile exists (first login), use basic user data
+            setProfile({
+                full_name: session.user.user_metadata?.full_name || session.user.email?.split('@')[0],
+                avatar_url: session.user.user_metadata?.avatar_url
+            })
+          }
       }
       setLoading(false)
     }
@@ -35,7 +44,7 @@ export default function NavbarUser() {
     getUser()
 
     // Listen for changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       setUser(session?.user || null)
       if (session?.user) {
           const { data: userProfile } = await supabase
@@ -43,14 +52,27 @@ export default function NavbarUser() {
             .select('*')
             .eq('id', session.user.id)
             .single()
-          setProfile(userProfile)
+          
+          if (userProfile) {
+            setProfile(userProfile)
+          } else {
+             setProfile({
+                full_name: session.user.user_metadata?.full_name || session.user.email?.split('@')[0],
+                avatar_url: session.user.user_metadata?.avatar_url
+            })
+          }
+          
+          // Force refresh on sign in to update server components
+          if (event === 'SIGNED_IN') {
+            router.refresh()
+          }
       } else {
           setProfile(null)
       }
     })
 
     return () => subscription.unsubscribe()
-  }, [])
+  }, [router])
 
   const handleSignOut = async () => {
     await supabase.auth.signOut()
