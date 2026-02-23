@@ -7,19 +7,21 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen bg-white text-gray-900 font-sans">
       {/* Navbar */}
-      <nav className="flex items-center justify-between px-6 py-4 border-b border-gray-100 max-w-7xl mx-auto w-full">
-        <div className="flex items-center gap-8">
-          <Link href="/" className="text-2xl font-bold text-indigo-700 tracking-tight">
-            alugue<span className="text-gray-900">ajuda</span>
-          </Link>
-          <div className="hidden md:flex gap-6 text-sm font-medium text-gray-600">
-            <Link href="/search" className="hover:text-indigo-600">Eu quero Ajuda</Link>
-            <Link href="/dashboard" className="hover:text-indigo-600">Eu quero Ajudar</Link>
+      <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100 px-6 py-4 w-full">
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
+          <div className="flex items-center gap-8">
+            <Link href="/" className="text-2xl font-bold text-indigo-700 tracking-tight">
+              alugue<span className="text-gray-900">ajuda</span>
+            </Link>
+            <div className="hidden md:flex gap-6 text-sm font-medium text-gray-600">
+              <Link href="/search" className="hover:text-indigo-600 transition-colors">Eu quero Ajuda</Link>
+              <Link href="/dashboard" className="hover:text-indigo-600 transition-colors">Eu quero Ajudar</Link>
+            </div>
           </div>
+          
+          {/* User Menu / Login Buttons */}
+          <NavbarUser />
         </div>
-        
-        {/* User Menu / Login Buttons */}
-        <NavbarUser />
       </nav>
 
       {/* Hero Section */}

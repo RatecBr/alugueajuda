@@ -51,9 +51,14 @@ export default async function SearchPage({
       {/* Navbar Simplificada */}
       <nav className="bg-white border-b border-gray-200 px-6 py-4 sticky top-0 z-10">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <Link href="/" className="text-2xl font-bold text-indigo-700 tracking-tight">
-            alugue<span className="text-gray-900">ajuda</span>
-          </Link>
+          <div className="flex items-center gap-4">
+             <Link href="/" className="text-2xl font-bold text-indigo-700 tracking-tight">
+               alugue<span className="text-gray-900">ajuda</span>
+             </Link>
+             <Link href="/" className="text-sm font-medium text-gray-500 hover:text-indigo-600 transition-colors hidden sm:block">
+               ← Voltar para Home
+             </Link>
+          </div>
           <div className="flex gap-4">
             <Link href="/login" className="text-sm font-medium text-gray-600 hover:text-indigo-600">
               Entrar

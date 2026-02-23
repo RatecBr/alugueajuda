@@ -23,10 +23,14 @@ export default async function DashboardPage() {
   return (
     <div className="min-h-screen bg-gray-50 p-6 md:p-12">
       <div className="max-w-5xl mx-auto">
+        {/* Header com Navegação */}
         <div className="flex justify-between items-center mb-8">
-            <div>
+            <div className="flex flex-col gap-1">
+                <Link href="/" className="text-sm font-medium text-indigo-600 hover:text-indigo-800 flex items-center gap-1 mb-2 transition-colors">
+                    ← Voltar para Home
+                </Link>
                 <h1 className="text-3xl font-bold text-gray-900">Meu Painel</h1>
-                <p className="text-gray-500 mt-1">Gerencie suas informações e preferências</p>
+                <p className="text-gray-500">Gerencie suas informações e preferências</p>
             </div>
             <form action="/auth/signout" method="post">
                 <button className="text-red-600 hover:text-red-800 text-sm font-medium border border-red-200 bg-white px-4 py-2 rounded-lg hover:bg-red-50 transition-colors">

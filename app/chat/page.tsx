@@ -4,6 +4,8 @@ import ChatInterface from '@/components/chat/chat-interface'
 import { redirect } from 'next/navigation'
 import { CheckCircle } from 'lucide-react'
 
+import Link from 'next/link'
+
 export default async function ChatPage({
   searchParams,
 }: {
@@ -27,7 +29,12 @@ export default async function ChatPage({
   return (
     <div className="min-h-screen bg-gray-50 pt-8 pb-12 px-4 md:px-8">
       <div className="max-w-6xl mx-auto">
-        <h1 className="text-2xl font-bold text-gray-900 mb-6">Central de Mensagens</h1>
+        <div className="flex justify-between items-center mb-6">
+            <h1 className="text-2xl font-bold text-gray-900">Central de Mensagens</h1>
+            <Link href="/dashboard" className="text-sm font-medium text-indigo-600 hover:text-indigo-800 transition-colors">
+                ← Voltar para Dashboard
+            </Link>
+        </div>
         
         {showSuccess && (
             <div className="bg-green-50 border border-green-200 text-green-800 p-4 mb-6 rounded-lg shadow-sm flex items-start gap-3 animate-in fade-in slide-in-from-top-4 duration-500">
