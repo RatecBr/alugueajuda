@@ -1,0 +1,602 @@
+
+
+1) Concorrentes / Modelos Semelhantes
+
+Embora não haja muitos marketplaces exatamente iguais ao que você descreve (consultoria por minuto + vídeo/áudio/chat + pagamento por tempo), existem soluções próximas:
+
+Modelos próximos no mercado
+
+Plataformas de teleconsulta / consultoria com chamadas em vídeo
+
+PicDoc – conecta profissionais de saúde com usuários para consultas online por vídeo, sem agendamento, valor por consulta, atendimento 24/7.
+
+Intro.co – marketplace global onde usuários reservam experts para sessões pagas (não necessariamente por minuto, mas por sessão) via videochamada.
+
+Plataformas de telemedicina montam sistemas com agendamento, vídeo, chat, lembretes e pagamento integrado (ex.: Conexa Saúde, GestãoDS, etc.)
+
+Projetos conceituais parecidos
+
+Fliffr (discussão de projeto) – marketplace onde especialistas cobram por minuto, com chat, vídeo, voz e pagamento por tempo.
+
+Caso referência de desenvolvimento de um app P2P de consultoria pay-per-minute com vídeo/audio/text chat no core.
+
+👉 Não há um “líder de mercado global” consolidado para exatamente pay-per-minute de experts gerais, o que mostra espaço de inovação — mas existem soluções com vídeo e consultoria online.
+
+🏗️ 2) Arquitetura de Sistema Recomendável
+
+Sua ideia é um marketplace escalável e responsivo (mobile-first) integrando login, chat, vídeo, pagamentos e métricas de tempo de uso. A seguir está uma arquitetura de referência.
+
+1) Frontend
+
+React (Web) ou Next.js – SPA responsivo, SSR para SEO, roteamento.
+
+TailwindCSS / Material UI – UI responsiva mobile-first.
+
+WebRTC + APIs de vídeo para chamadas real-time (texto, voz, vídeo).
+
+2) Backend
+
+Node.js + Fastify/Express ou Deno – APIs REST ou GraphQL.
+
+3) Banco de Dados / Backend as a Service
+
+Supabase:
+
+Banco de dados PostgreSQL
+
+Autenticação (email/senha, SSO)
+
+Realtime para chat
+
+Storage para uploads
+
+Edge Functions para lógica serverless
+
+4) Comunicação em tempo real
+
+Para chat, sinalização e vídeo/áudio em tempo real:
+
+WebRTC (cliente ↔ cliente)
+
+Sinalização WebSockets (pode usar Supabase Realtime ou terceiro como Socket.io)
+
+Vídeo/voz: Agora, Twilio Video SDK, Jitsi, Daily.co
+→ estes aceleram desenvolvimento de video/áudio com adaptação de rede e qualidade de chamada.
+
+5) Sistema de Pagamentos (Marketplace)
+
+Stripe Connect / PayPal Marketplace
+
+Captura pagamentos dos usuários
+
+Gera transfers automáticos para consultores
+
+Retém taxa da plataforma (20-30% ou conforme regra)
+
+Suporta PIX (via Stripe no Brasil) ou cartão
+
+Fluxo financeiro
+
+Usuário paga tempo de consultoria (pré-pay)
+
+Saldo fica em custódia (escrow)
+
+Após a sessão, calcula-se tempo usado
+
+Repassa-se 70-80% para o consultor automaticamente
+
+6) Gerenciamento de vídeo/chamadas agendadas
+
+Calendly / Cal.com pode ser integrado para agendamentos de sessões ou preferências de horário.
+
+🔌 3) Funcionalidades Principais (MVP)
+Módulo	Funcionalidade
+Autenticação	Login/Signup (email/senha, OAuth)
+Perfil	Perfil consultor, avaliações, especialidades
+Busca	Filtro por serviço, preço, avaliações
+Conexão	Chat texto + WebRTC video + áudio
+Pagamentos	Stripe Connect ou equivalente
+Timer	Billed por minuto, rastreamento de sessão
+Histórico	Logs de sessões, pagamentos, faturamento
+Notificações	Push, e-mail, SMS
+🛠️ 4) Tecnologias Recomendadas para IDE e Eco-Sistema
+Camada	Tech	Por que
+Frontend	Next.js + React	SEO, responsivo, mobile-first
+Estilização	TailwindCSS	Rápido, utilitário para responsividade
+Backend API	Node.js (Express / Fastify)	Performance, comunidade grande
+Autenticação	Supabase Auth	Pronto, seguro, social login
+Realtime	Supabase Realtime / WebSockets	Chat e sinalização
+Video/VoIP	Agora / Twilio / Daily.co	Alta qualidade, SDKs para web/mobile
+Pagamentos	Stripe Connect	Marketplace suportado nativamente
+Banco	Supabase PostgreSQL	Simples, hospedado, escalável
+
+⚙️ IDEs recomendadas:
+
+VS Code (com ESLint / Prettier / Tailwind intellisense)
+
+GitHub Codespaces ou Gitpod para ambiente cloud
+
+📌 5) Documento de Requisitos de Produto (PRD)
+🎯 Objetivo
+
+Criar um marketplace global de consultoria online, onde usuários pagam por minuto de conversas com especialistas via texto, áudio ou vídeo, com pagamento integrado e repasse automático para profissionais.
+
+📌 Visão Geral
+
+Usuários solicitam ajuda por temas (ex.: mecânica, educação, consultoria técnica)
+
+Consultores definem preços por minuto
+
+Sessões podem ser iniciadas imediatamente ou agendadas
+
+Pagamento eletrônico integrado, com retenção de receita para a plataforma
+
+🗂️ Funcionalidades Principais
+1) Cadastro/Autenticação
+
+Cadastro com email, senha, SSO (Google/Facebook)
+
+Recuperação de senha
+
+Validação de email e segurança 2FA (opcional)
+
+2) Perfil de Usuário e Consultor
+
+Foto, descrição, especialidades, idiomas
+
+Taxa por minuto
+
+Avaliações e reviews pós-sessão
+
+3) Busca e Matchmaking
+
+Filtro por habilidade, preço, disponibilidade
+
+Ordenação por avaliações
+
+4) Sessões
+
+Chat em tempo real
+
+Chamadas de vídeo/áudio (WebRTC com SDK)
+
+Timer que grava tempo exato para cobrança
+
+5) Pagamentos e Finanças
+
+Pagamento antecipado ou préautorizar
+
+Cálculo dinâmico de custo por minuto
+
+Repasses automáticos (70-80%) para consultores
+
+Extratos e relatórios
+
+6) Agendamento
+
+Calendário de horários disponíveis
+
+Integração opcional com Google Calendar
+
+7) Segurança e Conformidade
+
+Criptografia TLS/HTTPS
+
+Política de privacidade e LGPD/PCI Compliance
+
+Proteção contra fraudes
+
+8) Dashboard Admin
+
+Gestão de usuários
+
+Relatórios financeiros
+
+Moderação de conteúdos
+
+📊 Requisitos Não Funcionais
+Requisito	Métrica
+Performance	Tempo de resposta API < 300ms
+Escalabilidade	Suportar 10k sessões concorrentes
+Segurança	Autenticação robusta, criptografia de dados
+Disponibilidade	SLA mínimo 99.5% uptime
+Responsividade	Mobile-first adaptável a telas pequenas
+🧪 MVP (Produto Mínimo Viável)
+
+Funcionalidades mínimas para lançamento:
+
+Autenticação + perfis
+
+Busca e seleção de especialistas
+
+Chat texto + timer
+
+Chamadas de voz/vídeo
+
+Pagamentos + repasse automático
+
+Avaliações & histórico
+
+📈 Passos de Desenvolvimento
+
+Planejamento e prototipação UI/UX
+
+Figma ou Adobe XD
+
+Configurar Supabase
+
+Tabelas: usuários, perfis, sessões, transações
+
+Implementar login e perfis
+
+Chat e sinalização WebSockets
+
+WebRTC ou integração com Agora/Twilio
+
+Pagamentos com Stripe Connect
+
+Dashboard admin
+
+Testes de carga + segurança
+
+🧾 Resumo
+
+Você está criando uma plataforma de consultoria por tempo online (vídeo/chat/voz), com arquitetura moderna (Supabase + React + WebRTC), sistema de pagamentos com repasse automático e foco em mobile-first, responsivo e escalável.
+
+inclua um sistema de IA que fará a "entrevista" do profissional, por meio de formulário, para confirmar a experiência dele. Inclua isso e  Compile tudo que você fez na etapa anterior em um só documento para eu colar na IDE
+
+Perfeito. Abaixo está o DOCUMENTO TÉCNICO UNIFICADO E COMPLETO, já incluindo:
+
+Arquitetura
+
+Banco de dados
+
+Stripe Connect
+
+Daily (vídeo/voz)
+
+Supabase
+
+Mobile-first
+
+PRD
+
+Prompt IDE
+
+E agora:
+
+✅ Sistema de IA para Entrevista e Validação de Profissionais
+
+Este documento está estruturado para você colar integralmente na IDE Antigravity e gerar o sistema.
+
+🚀 DOCUMENTO TÉCNICO COMPLETO
+Plataforma Marketplace de Consultoria por Minuto + IA de Validação
+1️⃣ VISÃO DO PRODUTO
+
+Marketplace mobile-first que conecta usuários a profissionais que cobram por minuto via:
+
+Chat
+
+Áudio
+
+Vídeo
+
+Com:
+
+Pagamento integrado
+
+Repasse automático (70–80%)
+
+Sistema de IA que entrevista e valida profissionais antes da ativação
+
+2️⃣ ARQUITETURA GERAL
+Cliente (Mobile / Desktop PWA)
+        ↓
+Next.js 14 (App Router)
+        ↓
+API Routes (Server Actions)
+        ↓
+┌───────────────┬──────────────┬──────────────┐
+│ Supabase      │ Stripe       │ Daily.co     │
+│ PostgreSQL    │ Connect      │ WebRTC       │
+│ Auth + RLS    │ Marketplace  │ Video/Voice  │
+└───────────────┴──────────────┴──────────────┘
+        ↓
+OpenAI API (Sistema de Entrevista IA)
+3️⃣ STACK TECNOLÓGICA
+
+Frontend:
+
+Next.js 14
+
+React
+
+TailwindCSS
+
+PWA ready
+
+Backend:
+
+API Routes
+
+Edge Functions
+
+Banco:
+
+Supabase PostgreSQL
+
+Pagamentos:
+
+Stripe Connect Express
+
+Video:
+
+Daily.co
+
+IA:
+
+OpenAI API (modelo GPT-4o ou superior)
+
+4️⃣ MODELAGEM DO BANCO
+profiles
+create table profiles (
+  id uuid references auth.users on delete cascade primary key,
+  role text check (role in ('user','professional','admin')),
+  full_name text,
+  avatar_url text,
+  bio text,
+  price_per_minute numeric(10,2),
+  stripe_account_id text,
+  ai_verified boolean default false,
+  ai_score numeric(5,2),
+  created_at timestamp default now()
+);
+skills
+create table skills (
+  id uuid primary key default gen_random_uuid(),
+  name text unique
+);
+professional_skills
+create table professional_skills (
+  professional_id uuid references profiles(id),
+  skill_id uuid references skills(id),
+  primary key (professional_id, skill_id)
+);
+sessions
+create table sessions (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid references profiles(id),
+  professional_id uuid references profiles(id),
+  status text check (status in ('pending','active','finished','cancelled')),
+  started_at timestamp,
+  ended_at timestamp,
+  total_minutes integer,
+  total_amount numeric(10,2),
+  created_at timestamp default now()
+);
+messages
+create table messages (
+  id uuid primary key default gen_random_uuid(),
+  session_id uuid references sessions(id),
+  sender_id uuid references profiles(id),
+  content text,
+  created_at timestamp default now()
+);
+transactions
+create table transactions (
+  id uuid primary key default gen_random_uuid(),
+  session_id uuid references sessions(id),
+  stripe_payment_intent text,
+  amount numeric(10,2),
+  platform_fee numeric(10,2),
+  professional_amount numeric(10,2),
+  status text,
+  created_at timestamp default now()
+);
+ai_interviews
+create table ai_interviews (
+  id uuid primary key default gen_random_uuid(),
+  professional_id uuid references profiles(id),
+  responses jsonb,
+  ai_analysis text,
+  ai_score numeric(5,2),
+  approved boolean default false,
+  created_at timestamp default now()
+);
+5️⃣ SISTEMA DE IA – ENTREVISTA DO PROFISSIONAL
+Objetivo
+
+Antes de ativar um profissional, a IA:
+
+Aplica formulário inteligente
+
+Analisa coerência e profundidade
+
+Gera score de credibilidade
+
+Aprova ou reprova automaticamente
+
+Marca perfil como ai_verified
+
+Fluxo IA
+Profissional se cadastra
+        ↓
+Seleciona especialidade
+        ↓
+Formulário dinâmico baseado na skill
+        ↓
+Respostas enviadas para OpenAI
+        ↓
+IA analisa:
+   - Coerência técnica
+   - Profundidade
+   - Linguagem profissional
+   - Consistência
+        ↓
+Gera score (0–100)
+        ↓
+Se score >= 70 → aprovado
+API Route – Análise IA
+// /app/api/ai-interview/route.ts
+
+import OpenAI from "openai";
+import { NextResponse } from "next/server";
+
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+
+export async function POST(req: Request) {
+  const { responses, skill } = await req.json();
+
+  const prompt = `
+  Avalie a experiência profissional nas respostas abaixo.
+  Skill: ${skill}
+
+  Critérios:
+  - Profundidade técnica
+  - Clareza
+  - Experiência real
+  - Consistência
+
+  Retorne:
+  {
+    score: number,
+    analysis: string,
+    approved: boolean
+  }
+
+  Respostas:
+  ${JSON.stringify(responses)}
+  `;
+
+  const completion = await openai.chat.completions.create({
+    model: "gpt-4o",
+    messages: [{ role: "user", content: prompt }],
+  });
+
+  return NextResponse.json(JSON.parse(completion.choices[0].message.content));
+}
+6️⃣ STRIPE CONNECT (70–80%)
+
+Criar conta:
+
+const account = await stripe.accounts.create({
+  type: 'express'
+});
+
+Criar pagamento:
+
+const paymentIntent = await stripe.paymentIntents.create({
+  amount: totalInCents,
+  currency: 'brl',
+  application_fee_amount: platformFeeInCents,
+  transfer_data: {
+    destination: professionalStripeId
+  }
+});
+7️⃣ SISTEMA DE CHAMADA (DAILY)
+
+Criar sala:
+
+await fetch('https://api.daily.co/v1/rooms', {
+  method: 'POST',
+  headers: {
+    Authorization: `Bearer ${process.env.DAILY_API_KEY}`,
+  }
+});
+
+Frontend:
+
+import DailyIframe from '@daily-co/daily-js';
+
+const callFrame = DailyIframe.createFrame();
+callFrame.join({ url: roomUrl });
+8️⃣ TIMER DE COBRANÇA
+const duration = Math.ceil((Date.now() - startTime) / 60000);
+const total = duration * pricePerMinute;
+9️⃣ RLS (SUPABASE)
+
+Ativar RLS nas tabelas e criar policy:
+
+Users can read own sessions
+Professionals can read sessions where professional_id = auth.uid()
+🔟 PRD RESUMIDO
+
+Objetivo:
+Criar marketplace de especialistas cobrando por minuto.
+
+MVP:
+
+Login
+
+Perfil
+
+Busca
+
+Video
+
+Chat
+
+Timer
+
+Stripe
+
+IA validação profissional
+
+Modelo Receita:
+20–30% comissão por sessão.
+
+1️⃣1️⃣ ESTRUTURA DE PASTAS
+/app
+  /login
+  /register
+  /dashboard
+  /call/[sessionId]
+  /api
+      /stripe
+      /webhooks
+      /session
+      /ai-interview
+/lib
+/components
+/types
+/middleware.ts
+1️⃣2️⃣ VARIÁVEIS DE AMBIENTE
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+STRIPE_SECRET_KEY=
+STRIPE_WEBHOOK_SECRET=
+DAILY_API_KEY=
+OPENAI_API_KEY=
+1️⃣3️⃣ PROMPT COMPLETO PARA IDE
+
+Use este prompt na Antigravity:
+
+Crie um marketplace web mobile-first usando Next.js 14, Supabase e Stripe Connect.
+
+Inclua:
+
+Login Supabase
+
+Papéis user/professional/admin
+
+Sistema de IA que entrevista profissionais via formulário dinâmico
+
+Integração OpenAI para analisar respostas e gerar score
+
+Aprovação automática se score >= 70
+
+Banco conforme estrutura fornecida
+
+Chat realtime
+
+Video Daily.co
+
+Timer cobrança por minuto
+
+Stripe Connect com 70% repasse
+
+Dashboard profissional e usuário
+
+RLS habilitado
+
+Pronto para deploy Vercel
