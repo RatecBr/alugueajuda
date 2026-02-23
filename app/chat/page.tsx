@@ -16,10 +16,10 @@ export default async function ChatPage({
       redirect('/login')
   }
 
-  if (result.error) {
+  if (result.error || !result.userId) {
       return (
           <div className="p-8 text-center text-red-600">
-              Erro ao carregar chat: {result.error}
+              Erro ao carregar chat: {result.error || 'Usuário não identificado'}
           </div>
       )
   }
@@ -42,7 +42,7 @@ export default async function ChatPage({
 
         <ChatInterface 
             conversations={result.conversations || []} 
-            userId={result.userId} 
+            userId={result.userId!} 
         />
       </div>
     </div>
