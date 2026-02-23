@@ -143,15 +143,15 @@ export default function NavbarUser() {
   }
 
   return (
-    <div className="flex items-center gap-4">
-      <Link href="/login" className="text-sm font-medium text-gray-600 hover:text-indigo-600">
-        Faça login
+    <div className="flex items-center gap-3 sm:gap-4">
+      <Link href="/login" className="text-sm font-medium text-gray-600 hover:text-indigo-600 whitespace-nowrap">
+        Entrar
       </Link>
       <Link
         href="/login"
-        className="bg-indigo-700 hover:bg-indigo-800 text-white px-5 py-2 rounded-full text-sm font-bold transition-colors"
+        className="bg-indigo-700 hover:bg-indigo-800 text-white px-4 py-2 rounded-full text-sm font-bold transition-colors whitespace-nowrap"
       >
-        Cadastre-se
+        Cadastrar
       </Link>
     </div>
   )

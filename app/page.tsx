@@ -48,7 +48,7 @@ export default function Home() {
           </div>
 
           <h1 className="text-4xl md:text-6xl font-extrabold text-gray-900 leading-tight">
-            Resolva seu problema com o <span className="text-indigo-600">melhor especialista</span> em minutos.
+            Resolva seu problema com o <span className="text-brand-blue">melhor especialista</span> em minutos.
           </h1>
           
           <p className="text-lg md:text-xl text-gray-600 leading-relaxed max-w-lg">
@@ -58,7 +58,7 @@ export default function Home() {
           <div className="flex flex-col sm:flex-row gap-4 pt-4">
             <Link
               href="/search"
-              className="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-4 rounded-full text-lg font-bold text-center transition-all shadow-lg hover:shadow-xl"
+              className="bg-brand-blue hover:bg-indigo-800 text-white px-8 py-4 rounded-full text-lg font-bold text-center transition-all shadow-lg hover:shadow-xl"
             >
               Eu quero Ajuda
             </Link>

@@ -12,7 +12,7 @@
   --font-mono: var(--font-geist-mono);
 
   /* Brand Colors extracted from Logo */
-  --color-brand-blue: #0052CC;
+  --color-brand-blue: #0052CC; /* Main Brand Blue */
   --color-brand-red: #FF3333;
 
   /* Overriding Indigo to match Brand Blue */
