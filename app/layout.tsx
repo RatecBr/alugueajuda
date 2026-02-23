@@ -16,7 +16,10 @@ export const metadata: Metadata = {
   title: "Alugue Ajuda - Consultoria por Minuto",
   description: "Conecte-se com especialistas e resolva seus problemas em minutos.",
   icons: {
-    icon: '/icon', // Explicit icon reference
+    icon: '/icon.png',
+  },
+  verification: {
+    google: 'ud9286LseyPEyMoEGqTsMSI5lP57-v5VAFMj2CsnidM',
   },
 };
 

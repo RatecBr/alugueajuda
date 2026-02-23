@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react'
 
 export default function NavbarUser() {
   const [user, setUser] = useState<any>(null)
-  const [profileName, setProfileName] = useState<string | null>(null)
+  const [profile, setProfile] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const [menuOpen, setMenuOpen] = useState(false)
   const supabase = createClient()
@@ -21,15 +21,13 @@ export default function NavbarUser() {
       setUser(session?.user || null)
       
       if (session?.user) {
-          const { data: profile } = await supabase
+          const { data: userProfile } = await supabase
             .from('profiles')
-            .select('full_name')
+            .select('*') // Get all fields including avatar_url
             .eq('id', session.user.id)
             .single()
           
-          if (profile?.full_name) {
-              setProfileName(profile.full_name)
-          }
+          setProfile(userProfile)
       }
       setLoading(false)
     }
@@ -40,14 +38,14 @@ export default function NavbarUser() {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
       setUser(session?.user || null)
       if (session?.user) {
-          const { data: profile } = await supabase
+          const { data: userProfile } = await supabase
             .from('profiles')
-            .select('full_name')
+            .select('*')
             .eq('id', session.user.id)
             .single()
-          setProfileName(profile?.full_name || null)
+          setProfile(userProfile)
       } else {
-          setProfileName(null)
+          setProfile(null)
       }
     })
 
@@ -57,13 +55,16 @@ export default function NavbarUser() {
   const handleSignOut = async () => {
     await supabase.auth.signOut()
     setUser(null)
-    setProfileName(null)
+    setProfile(null)
     router.refresh()
   }
 
-  if (loading) return <div className="h-8 w-20 bg-gray-100 animate-pulse rounded-full"></div>
+  if (loading) return <div className="h-10 w-10 bg-gray-100 animate-pulse rounded-full"></div>
 
   if (user) {
+    const displayName = profile?.full_name || user.email?.split('@')[0]
+    const initial = displayName?.charAt(0).toUpperCase()
+
     return (
       <div className="relative">
         <button 
@@ -71,15 +72,26 @@ export default function NavbarUser() {
             className="flex items-center gap-3 hover:opacity-80 transition-opacity focus:outline-none group"
         >
             <div className="text-right hidden sm:block">
-                <p className="text-sm font-bold text-gray-700 leading-tight group-hover:text-indigo-700">
-                    {profileName || user.email?.split('@')[0]}
+                <p className="text-sm font-bold text-indigo-700 leading-tight">
+                    {displayName}
                 </p>
-                <p className="text-[10px] text-gray-400 font-medium uppercase tracking-wide">
+                <p className="text-[10px] text-gray-400 font-medium uppercase tracking-wide group-hover:text-rose-600 transition-colors">
                     Minha Conta
                 </p>
             </div>
-            <div className="w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center text-white font-bold border-2 border-indigo-100 shadow-sm">
-                {profileName?.charAt(0).toUpperCase() || user.email?.charAt(0).toUpperCase()}
+            
+            <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-indigo-100 shadow-sm group-hover:border-rose-200 transition-colors">
+                {profile?.avatar_url ? (
+                    <img 
+                        src={profile.avatar_url} 
+                        alt={displayName} 
+                        className="w-full h-full object-cover"
+                    />
+                ) : (
+                    <div className="w-full h-full bg-indigo-600 flex items-center justify-center text-white font-bold">
+                        {initial}
+                    </div>
+                )}
             </div>
         </button>
 
@@ -89,31 +101,40 @@ export default function NavbarUser() {
                     className="fixed inset-0 z-10 cursor-default" 
                     onClick={() => setMenuOpen(false)}
                 ></div>
-                <div className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-20 animate-in fade-in zoom-in duration-200 origin-top-right">
-                    <div className="px-4 py-2 border-b border-gray-50 mb-1">
-                        <p className="text-xs text-gray-400">Logado como</p>
-                        <p className="text-sm font-bold text-gray-800 truncate">{user.email}</p>
+                <div className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-20 animate-in fade-in zoom-in duration-200 origin-top-right ring-1 ring-black ring-opacity-5">
+                    <div className="px-4 py-3 border-b border-gray-50 bg-gray-50/50">
+                        <p className="text-xs text-gray-500 font-medium uppercase tracking-wider mb-1">Logado como</p>
+                        <p className="text-sm font-bold text-indigo-900 truncate">{user.email}</p>
                     </div>
-                    <Link 
-                        href="/chat" 
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-700"
-                        onClick={() => setMenuOpen(false)}
-                    >
-                        Mensagens
-                    </Link>
-                    <Link 
-                        href="/dashboard" 
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-700"
-                        onClick={() => setMenuOpen(false)}
-                    >
-                        Meu Painel
-                    </Link>
-                    <button
-                        onClick={handleSignOut}
-                        className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 hover:text-red-700"
-                    >
-                        Sair
-                    </button>
+                    
+                    <div className="py-1">
+                        <Link 
+                            href="/chat" 
+                            className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition-colors"
+                            onClick={() => setMenuOpen(false)}
+                        >
+                            <span className="w-5 h-5 flex items-center justify-center bg-indigo-100 text-indigo-600 rounded-full text-xs">💬</span>
+                            Mensagens
+                        </Link>
+                        <Link 
+                            href="/dashboard" 
+                            className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition-colors"
+                            onClick={() => setMenuOpen(false)}
+                        >
+                            <span className="w-5 h-5 flex items-center justify-center bg-indigo-100 text-indigo-600 rounded-full text-xs">⚙️</span>
+                            Meu Painel
+                        </Link>
+                    </div>
+
+                    <div className="border-t border-gray-100 mt-1 pt-1">
+                        <button
+                            onClick={handleSignOut}
+                            className="w-full text-left flex items-center gap-3 px-4 py-2.5 text-sm text-rose-600 hover:bg-rose-50 font-medium transition-colors"
+                        >
+                            <span className="w-5 h-5 flex items-center justify-center bg-rose-100 text-rose-600 rounded-full text-xs">🚪</span>
+                            Sair da Conta
+                        </button>
+                    </div>
                 </div>
             </>
         )}

@@ -1,5 +1,6 @@
 
 import Link from "next/link";
+import Image from "next/image";
 import { Wrench, BookOpen, HeartHandshake, Laptop, Briefcase, ChevronRight, Search } from 'lucide-react'
 import NavbarUser from '@/app/components/navbar-user'
 
@@ -10,8 +11,15 @@ export default function Home() {
       <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100 px-6 py-4 w-full">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-8">
-            <Link href="/" className="text-2xl font-bold text-indigo-700 tracking-tight">
-              alugue<span className="text-gray-900">ajuda</span>
+            <Link href="/" className="hover:opacity-80 transition-opacity">
+              <Image 
+                src="/logo.png" 
+                alt="Alugue Ajuda" 
+                width={180} 
+                height={40} 
+                className="h-10 w-auto"
+                priority
+              />
             </Link>
             <div className="hidden md:flex gap-6 text-sm font-medium text-gray-600">
               <Link href="/search" className="hover:text-indigo-600 transition-colors">Eu quero Ajuda</Link>
@@ -50,13 +58,13 @@ export default function Home() {
           <div className="flex flex-col sm:flex-row gap-4 pt-4">
             <Link
               href="/search"
-              className="bg-indigo-700 hover:bg-indigo-800 text-white px-8 py-4 rounded-full text-lg font-bold text-center transition-all shadow-lg hover:shadow-xl"
+              className="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-4 rounded-full text-lg font-bold text-center transition-all shadow-lg hover:shadow-xl"
             >
               Eu quero Ajuda
             </Link>
             <Link
               href="/dashboard"
-              className="flex items-center justify-center gap-2 text-indigo-700 font-bold px-8 py-4 hover:bg-indigo-50 rounded-full transition-colors"
+              className="flex items-center justify-center gap-2 text-rose-600 font-bold px-8 py-4 hover:bg-rose-50 rounded-full transition-colors border-2 border-transparent hover:border-rose-100"
             >
               Você quer Ajudar? <span>&rarr;</span>
             </Link>
