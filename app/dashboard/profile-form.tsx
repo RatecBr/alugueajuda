@@ -50,7 +50,8 @@ export default function DashboardClient({ profile, userEmail }: { profile: Profi
     } else {
         setMessage({ type: 'success', text: 'Senha alterada com sucesso!' })
         // Clear form fields manually if needed, but native form reset is better
-        (document.getElementById('passwordForm') as HTMLFormElement)?.reset()
+        const form = document.getElementById('passwordForm') as HTMLFormElement
+        if (form) form.reset()
     }
     setLoading(false)
   }
